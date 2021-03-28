@@ -26,15 +26,15 @@
               inherit (smunix-diagrams-svg.packages.${system}) diagrams-svg;
             });
             {
-              diagrams-contrib = rec {
-                package = overrideCabal (callCabal2nix "diagrams-contrib" ./. {}) (o: { version = "${o.version}-${version}"; });
+              diagrams = rec {
+                package = overrideCabal (callCabal2nix "diagrams" ./. {}) (o: { version = "${o.version}-${version}"; });
               };
             };
           overlays = [ overlay ];
       in
         with (import nixpkgs { inherit system overlays; });
         rec {
-          packages = flattenTree (recurseIntoAttrs { diagrams-contrib = diagrams-contrib.package; });
-          defaultPackage = packages.diagrams-contrib;
+          packages = flattenTree (recurseIntoAttrs { diagrams = diagrams.package; });
+          defaultPackage = packages.diagrams;
         });
 }
